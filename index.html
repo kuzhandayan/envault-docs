@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>envault — Complete User Guide</title>
+<style>
+  :root{
+    --bg:#0a0e14;
+    --surface:#10151d;
+    --surface-2:#161c26;
+    --border:#232b38;
+    --text:#c9d3e0;
+    --text-dim:#7c8798;
+    --text-faint:#4d5768;
+    --accent:#6ee7b7;
+    --accent-dim:#3a8f6f;
+    --amber:#f2b134;
+    --red:#ff6b6b;
+    --mono:'JetBrains Mono','SF Mono',Consolas,monospace;
+    --sans:'Inter',-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.65;
+  }
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+
+  /* ---------- Layout ---------- */
+  .shell{display:flex;max-width:1280px;margin:0 auto;}
+  .sidebar{
+    width:260px;flex-shrink:0;
+    position:sticky;top:0;align-self:flex-start;
+    height:100vh;overflow-y:auto;
+    padding:32px 20px 40px 28px;
+    border-right:1px solid var(--border);
+  }
+  .sidebar::-webkit-scrollbar{width:6px;}
+  .sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+  .brand{
+    font-family:var(--mono);font-weight:700;font-size:15px;
+    color:var(--text);letter-spacing:0.5px;margin-bottom:2px;
+  }
+  .brand-accent{color:var(--accent);}
+  .brand-sub{font-size:11px;color:var(--text-faint);font-family:var(--mono);margin-bottom:28px;}
+  .nav-group{margin-bottom:4px;}
+  .nav-link{
+    display:block;font-size:13px;color:var(--text-dim);
+    padding:6px 10px;border-radius:6px;font-family:var(--mono);
+    border-left:2px solid transparent;
+  }
+  .nav-link:hover{color:var(--text);text-decoration:none;background:var(--surface);}
+  .nav-link.active{color:var(--accent);border-left-color:var(--accent);background:var(--surface);}
+
+  .content{flex:1;min-width:0;padding:48px 56px 120px;}
+  @media (max-width:860px){
+    .sidebar{display:none;}
+    .content{padding:32px 20px 80px;}
+  }
+
+  /* ---------- Hero / terminal ---------- */
+  .hero{margin-bottom:56px;}
+  .terminal{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:10px;overflow:hidden;
+    box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);
+  }
+  .term-bar{
+    display:flex;align-items:center;gap:8px;
+    padding:10px 14px;background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+  }
+  .dot{width:10px;height:10px;border-radius:50%;}
+  .dot.r{background:#ff6159;} .dot.y{background:#ffbd2e;} .dot.g{background:#28c840;}
+  .term-title{margin-left:8px;font-family:var(--mono);font-size:12px;color:var(--text-faint);}
+  .term-body{padding:22px 24px;font-family:var(--mono);font-size:13px;white-space:pre;overflow-x:auto;}
+  .term-body .logo{color:var(--accent);line-height:1.3;font-size:12px;}
+  .term-body .credit{display:block;color:var(--text-faint);font-size:12px;margin:6px 0 2px;}
+  .term-body .credit-link{color:var(--text-dim);text-decoration:underline;text-decoration-color:var(--border);}
+  .term-body .credit-link:hover{color:var(--accent);text-decoration-color:var(--accent);}
+  .term-body .watermark{display:block;color:var(--text-faint);font-size:10.5px;letter-spacing:0.5px;margin:0 0 16px;opacity:0.6;}
+  .term-body .prompt{color:var(--text-dim);}
+  .term-body .cmd{color:var(--text);}
+  .hero-tag{
+    margin-top:20px;color:var(--text-dim);font-size:16px;line-height:1.7;
+    max-width:620px;
+  }
+  .hero-tag b{color:var(--text);}
+
+  /* ---------- Typography ---------- */
+  h1{font-family:var(--mono);font-size:26px;color:var(--text);margin:0 0 12px;font-weight:700;}
+  h2{
+    font-family:var(--mono);font-size:20px;color:var(--text);
+    margin:56px 0 18px;padding-bottom:10px;border-bottom:1px solid var(--border);
+    display:flex;align-items:baseline;gap:10px;
+  }
+  h2 .num{color:var(--accent-dim);font-size:14px;}
+  h3{font-family:var(--mono);font-size:15px;color:var(--accent);margin:28px 0 10px;}
+  p{color:var(--text-dim);margin:0 0 14px;}
+  strong{color:var(--text);}
+  ul,ol{color:var(--text-dim);padding-left:22px;}
+  li{margin-bottom:6px;}
+  li::marker{color:var(--accent-dim);}
+
+  /* ---------- Code ---------- */
+  code{
+    font-family:var(--mono);font-size:12.5px;
+    background:var(--surface-2);color:var(--accent);
+    padding:2px 6px;border-radius:4px;border:1px solid var(--border);
+  }
+  pre{
+    background:var(--surface);border:1px solid var(--border);border-radius:8px;
+    padding:16px 18px;overflow-x:auto;font-family:var(--mono);font-size:13px;
+    color:var(--text);position:relative;margin:14px 0 20px;
+  }
+  pre code{background:none;border:none;padding:0;color:inherit;}
+  .code-wrap{position:relative;}
+  .copy-btn{
+    position:absolute;top:10px;right:10px;
+    background:var(--surface-2);border:1px solid var(--border);color:var(--text-faint);
+    font-family:var(--mono);font-size:11px;padding:4px 10px;border-radius:5px;
+    cursor:pointer;
+  }
+  .copy-btn:hover{color:var(--accent);border-color:var(--accent-dim);}
+
+  /* ---------- Table ---------- */
+  table{width:100%;border-collapse:collapse;margin:16px 0 24px;font-size:13.5px;}
+  th{
+    font-family:var(--mono);text-transform:uppercase;letter-spacing:0.5px;
+    font-size:11px;color:var(--text-faint);text-align:left;
+    padding:10px 14px;border-bottom:1px solid var(--border);
+  }
+  td{padding:12px 14px;border-bottom:1px solid var(--border);color:var(--text-dim);vertical-align:top;}
+  td code{white-space:nowrap;}
+  tr:hover td{background:var(--surface);}
+
+  /* ---------- Callouts ---------- */
+  .callout{
+    border:1px solid var(--border);border-left:3px solid var(--accent-dim);
+    background:var(--surface);border-radius:0 8px 8px 0;
+    padding:14px 18px;margin:18px 0;font-size:13.5px;color:var(--text-dim);
+  }
+  .callout.warn{border-left-color:var(--amber);}
+  .callout.danger{border-left-color:var(--red);}
+  .callout-label{
+    font-family:var(--mono);font-size:11px;text-transform:uppercase;
+    letter-spacing:0.6px;display:block;margin-bottom:6px;color:var(--text-faint);
+  }
+  .callout.warn .callout-label{color:var(--amber);}
+  .callout.danger .callout-label{color:var(--red);}
+
+  .divider{height:1px;background:var(--border);margin:48px 0;}
+  .footer{color:var(--text-faint);font-size:12px;font-family:var(--mono);margin-top:60px;}
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="brand">env<span class="brand-accent">ault</span></div>
+    <div class="brand-sub">complete user guide</div>
+
+    <div class="nav-group">
+      <a class="nav-link" href="#quickref">Quick Reference</a>
+      <a class="nav-link" href="#s1">01 · How It Works</a>
+      <a class="nav-link" href="#s2">02 · Installation</a>
+      <a class="nav-link" href="#s3">03 · First-Time Setup</a>
+      <a class="nav-link" href="#s4">04 · Push / Pull</a>
+      <a class="nav-link" href="#s5">05 · Projects & Envs</a>
+      <a class="nav-link" href="#s6">06 · Merge Files</a>
+      <a class="nav-link" href="#s7">07 · Interactive Edit</a>
+      <a class="nav-link" href="#s8">08 · Key-Level Editing</a>
+      <a class="nav-link" href="#s9">09 · Discovery Commands</a>
+      <a class="nav-link" href="#s10">10 · Change Password</a>
+      <a class="nav-link" href="#s11">11 · CI / Non-Interactive</a>
+      <a class="nav-link" href="#s12">12 · Troubleshooting</a>
+      <a class="nav-link" href="#s13">13 · Security Summary</a>
+    </div>
+  </nav>
+
+  <!-- CONTENT -->
+  <main class="content">
+
+    <div class="hero">
+      <div class="terminal">
+        <div class="term-bar">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="term-title">~/  — envault</span>
+        </div>
+        <div class="term-body"><span class="logo">█████ █   █ █   █  ███  █   █ █     █████
+█     ██  █ █   █ █   █ █   █ █       █
+███   █ █ █  █ █  █████ █   █ █       █
+█     █  ██  █ █  █   █ █   █ █       █
+█████ █   █   █   █   █  ███  █████   █  </span><span class="credit">                by <a class="credit-link" href="https://kuzhandayan-portfolio.site/" target="_blank" rel="noopener">Kuzhandayan</a></span><span class="watermark">                ─── open source · envault ───</span><span class="prompt">$ </span><span class="cmd">npm install -g envault-sync</span></div>
+      </div>
+      <p class="hero-tag">
+        <b>envault</b> securely syncs your <code>.env</code> files across laptops using
+        your own private GitHub repo as storage. Everything is encrypted on your
+        machine before it ever leaves — not even GitHub, and not envault itself,
+        can ever see your real values.
+      </p>
+    </div>
+
+    <h1 id="quickref">Quick Reference — Every Command</h1>
+    <table>
+      <tr><th>#</th><th>Command</th><th>What it does</th></tr>
+      <tr><td>1</td><td><code>envault init</code></td><td>First-time setup / recover on a new laptop</td></tr>
+      <tr><td>2</td><td><code>envault push &lt;project&gt; --env &lt;envName&gt; [--file &lt;path&gt;]</code></td><td>Encrypt and upload a whole file</td></tr>
+      <tr><td>3</td><td><code>envault pull &lt;project&gt; --env &lt;envName&gt;</code> / <code>envault pull --all</code></td><td>Decrypt and download</td></tr>
+      <tr><td>4</td><td><code>envault env create/list/delete &lt;project&gt; [&lt;envName&gt;]</code></td><td>Manage environments</td></tr>
+      <tr><td>5</td><td><code>envault project list</code> / <code>envault project delete &lt;project&gt;</code></td><td>Manage projects</td></tr>
+      <tr><td>6</td><td><code>envault merge &lt;project&gt; --env &lt;envName&gt; --file &lt;p1&gt; --file &lt;p2&gt;</code></td><td>Combine files, resolve conflicts</td></tr>
+      <tr><td>7</td><td><code>envault edit &lt;project&gt; --env &lt;envName&gt;</code></td><td>Open in your text editor</td></tr>
+      <tr><td>8</td><td><code>envault set/get/delete-key/list-keys &lt;project&gt; --env &lt;envName&gt; ...</code></td><td>Edit one key at a time</td></tr>
+      <tr><td>9</td><td><code>envault scan [--path &lt;dir&gt;]</code></td><td>Auto-detect and bulk-import <code>.env*</code> files</td></tr>
+      <tr><td>10</td><td><code>envault view &lt;project&gt; --env &lt;envName&gt;</code></td><td>Print decrypted content (never writes to disk)</td></tr>
+      <tr><td>11</td><td><code>envault copy &lt;project&gt; --env &lt;envName&gt;</code></td><td>Copy decrypted content to clipboard</td></tr>
+      <tr><td>12</td><td><code>envault list</code></td><td>Table of every project + environment</td></tr>
+      <tr><td>13</td><td><code>envault change-password</code></td><td>Rotate your master password + PIN</td></tr>
+    </table>
+
+    <div class="divider"></div>
+
+    <h2 id="s1"><span class="num">01</span> How It Works (Read This First)</h2>
+    <ul>
+      <li>Two independent locks protect your secrets:
+        <ul>
+          <li><strong>GitHub token</strong> — controls who can <em>access</em> the encrypted files.</li>
+          <li><strong>Master password</strong> — controls who can <em>decrypt</em> them.</li>
+        </ul>
+        Both are required. Neither alone is enough.
+      </li>
+      <li>Your master password is <strong>never stored anywhere</strong> — not on your disk, not on
+        GitHub, not encrypted, nowhere. It only exists in memory while a command runs.</li>
+      <li>Only encrypted ciphertext ever leaves your laptop. GitHub only ever sees
+        meaningless-looking encrypted blobs.</li>
+      <li>All encryption/decryption happens <strong>locally on your machine</strong> — GitHub does
+        zero computation, it's just storage.</li>
+    </ul>
+    <div class="callout danger">
+      <span class="callout-label">Critical</span>
+      If you forget your master password, your data cannot be recovered. Treat it
+      like a crypto wallet seed phrase.
+    </div>
+
+    <h2 id="s2"><span class="num">02</span> Installation</h2>
+    <div class="code-wrap"><pre><code>npm install -g envault-sync</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+    <p>Published on npm as <code>envault-sync</code>, but this installs the <code>envault</code> command
+      itself — every command below is typed as <code>envault ...</code>, not <code>envault-sync ...</code>.</p>
+    <p>If running from source instead of a global install:</p>
+    <div class="code-wrap"><pre><code>node bin/envault.js &lt;command&gt;</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+
+    <h2 id="s3"><span class="num">03</span> First-Time Setup — <code>envault init</code></h2>
+    <div class="code-wrap"><pre><code>envault init</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+    <p><strong>What it asks for, in order:</strong></p>
+    <ol>
+      <li><strong>GitHub Personal Access Token</strong> — needs <code>repo</code> scope. Generate one at
+        github.com → Settings → Developer settings → Personal access tokens →
+        Tokens (classic) → Generate new token (classic).</li>
+      <li><strong>A master password</strong> — must be 12+ characters, with uppercase, lowercase,
+        a number, and a symbol.</li>
+      <li><strong>A 4-digit security PIN</strong> — needed later, together with your password, to
+        change your master password.</li>
+    </ol>
+    <p><strong>What it does automatically:</strong></p>
+    <ul>
+      <li>Creates a <strong>private</strong> GitHub repo called <code>envault-store</code> (only on true first-time
+        setup — if one already exists, it reuses it).</li>
+      <li>Clones it to <code>~/.envault/store</code> on your machine.</li>
+      <li>Generates a random salt, saves your config to <code>~/.envault/config.json</code>
+        (permissions locked to owner-only).</li>
+      <li>Encrypts a small "verify" file and your PIN's verify file, pushes everything.</li>
+    </ul>
+
+    <h3>Re-running init later (new laptop, or refreshing an expired token)</h3>
+    <p>If you run <code>init</code> again and <code>envault-store</code> already has data in it, it switches
+      into <strong>recovery mode</strong>:</p>
+    <ul>
+      <li>Asks for your <strong>existing</strong> master password (not a new one) and checks it
+        against the data already in the repo.</li>
+      <li>Correct password → everything works, nothing is touched or reset.</li>
+      <li>Wrong password → aborts cleanly, nothing changed.</li>
+      <li>It does <strong>not</strong> ask for a new PIN in this case — your original one carries over.</li>
+    </ul>
+
+    <h3>If you forget your master password</h3>
+    <div class="callout danger">
+      <span class="callout-label">No recovery — by design</span>
+      Your only path forward is to abandon that repo (rename or delete <code>envault-store</code>
+      on GitHub) and run <code>init</code> fresh with a new password. Old encrypted secrets
+      remain permanently inaccessible.
+    </div>
+
+    <h2 id="s4"><span class="num">04</span> Push / Pull — Whole File</h2>
+    <div class="code-wrap"><pre><code>envault push &lt;project&gt; --env &lt;envName&gt;              # encrypts ./.env and pushes it
+envault push &lt;project&gt; --env &lt;envName&gt; --file &lt;path&gt; # use a specific source file
+
+envault pull &lt;project&gt; --env &lt;envName&gt;               # pulls + decrypts into ./.env
+envault pull --all                                    # restores everything into a folder you choose</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+
+    <p><strong>Example:</strong></p>
+    <div class="code-wrap"><pre><code>cd ~/code/myapp
+envault push myapp --env dev
+# ...on another laptop:
+envault pull myapp --env dev</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+
+    <p><code>--env</code> names are completely free-form (<code>dev</code>, <code>production</code>, <code>uat</code>, <code>qa</code>,
+      whatever you use) — not a fixed list. Re-pushing to the same project+env always
+      <strong>fully replaces</strong> the previous content — no duplication, no merging of old and
+      new, a clean overwrite every time.</p>
+
+    <h2 id="s5"><span class="num">05</span> Managing Projects & Environments</h2>
+    <div class="code-wrap"><pre><code>envault env create &lt;project&gt; &lt;envName&gt;     # create a new empty environment
+envault env list &lt;project&gt;                 # list environments for a project
+envault env delete &lt;project&gt; &lt;envName&gt;     # delete one environment (asks to confirm)
+
+envault project list                       # list all projects + their environments
+envault project delete &lt;project&gt;           # delete a project and ALL its environments (asks to confirm)</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+
+    <p>A <strong>project</strong> is the top-level bucket (e.g. <code>myapp</code>); every environment you
+      create for it (<code>dev</code>, <code>uat</code>, <code>production</code>, or any name you choose) lives inside
+      that same bucket, but each environment's data stays fully separate from the
+      others unless you deliberately combine them (see Merge below).</p>
+
+    <h2 id="s6"><span class="num">06</span> Combining Multiple Files Into One Environment — <code>envault merge</code></h2>
+    <div class="code-wrap"><pre><code>envault merge &lt;project&gt; --env &lt;envName&gt; --file &lt;path1&gt; --file &lt;path2&gt; [--file &lt;path3&gt; ...]</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+
+    <p>Combines 2 or more <code>.env</code> files into a single environment. If the same key
+      appears in more than one file with <strong>different</strong> values, you're prompted
+      interactively to resolve it — nothing is silently overwritten. If a key
+      appears in multiple files with the <strong>same</strong> value, that's not treated as a
+      conflict.</p>
+
+    <p><strong>Options when a conflict is found:</strong></p>
+    <ul>
+      <li>Keep the existing value</li>
+      <li>Use the new (incoming) value</li>
+      <li><strong>Keep both</strong> — renames the incoming one (e.g. <code>API_KEY</code> → <code>API_KEY_ALT</code>) so
+        neither value is lost</li>
+      <li>Enter a completely custom value</li>
+    </ul>
+
+    <p><strong>Example:</strong></p>
+    <div class="code-wrap"><pre><code>envault merge myapp --env live_qa --file src/.env --file src/.env.uat</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+
+    <h2 id="s7"><span class="num">07</span> Interactive Editing — <code>envault edit</code></h2>
+    <div class="code-wrap"><pre><code>envault edit &lt;project&gt; --env &lt;envName&gt;</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+
+    <p>Decrypts the environment into a temporary file, opens it in your terminal's
+      text editor (whatever <code>$EDITOR</code> is set to, e.g. <code>vim</code>, <code>nano</code> — defaults to
+      <code>nano</code> if unset), and lets you freely add, change, or delete lines exactly
+      like editing a normal file. When you save and close the editor, it
+      automatically re-encrypts and pushes the result. If you close without
+      changing anything, nothing is pushed. The temporary plaintext file is deleted
+      immediately afterward either way.</p>
+
+    <p>This only edits the <strong>content</strong> of the one environment you specify — it
+      cannot rename the environment, rename the project, or touch any other
+      environment in the same session.</p>
+
+    <h2 id="s8"><span class="num">08</span> Key-Level Editing (No Full File Overwrite)</h2>
+    <p>Edit a single key inside an already-pushed environment without touching the rest:</p>
+    <div class="code-wrap"><pre><code>envault set &lt;project&gt; --env &lt;envName&gt; KEY=VALUE     # add or update one key
+envault get &lt;project&gt; --env &lt;envName&gt; KEY           # print one key's value
+envault delete-key &lt;project&gt; --env &lt;envName&gt; KEY    # remove one key
+envault list-keys &lt;project&gt; --env &lt;envName&gt;         # list key NAMES only (values hidden)</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+
+    <p><code>set</code> handles both adding a brand-new key and updating an existing one — same
+      command either way. Everything else in that environment stays untouched.</p>
+
+    <h2 id="s9"><span class="num">09</span> Discovery & Convenience Commands</h2>
+    <div class="code-wrap"><pre><code>envault scan [--path &lt;dir&gt;]     # finds all .env* files under a folder, shows a
+                                 # checklist, lets you pick which to push
+envault view &lt;project&gt; --env &lt;envName&gt;    # decrypt and print to terminal ONLY (never writes to disk)
+envault copy &lt;project&gt; --env &lt;envName&gt;    # decrypt and copy to clipboard (never touches disk)
+envault list                              # table of every project + env + last updated time</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+
+    <p><code>scan</code> is the fastest way to onboard an existing project — it automatically
+      detects the project name from the nearest <code>.git</code> folder and guesses the
+      environment name from the filename:</p>
+    <ul>
+      <li><code>.env</code> → environment <code>dev</code> (the one special case)</li>
+      <li><code>.env.&lt;anything&gt;</code> → environment <code>&lt;anything&gt;</code> (used verbatim)</li>
+    </ul>
+    <p>It always shows a tick-list before pushing anything — even with just one file
+      found — so nothing gets uploaded without an explicit confirmation.</p>
+
+    <h2 id="s10"><span class="num">10</span> Changing Your Master Password — <code>envault change-password</code></h2>
+    <div class="code-wrap"><pre><code>envault change-password</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+
+    <p><strong>Requires, in order:</strong></p>
+    <ol>
+      <li>Your <strong>current</strong> master password (verified against your existing data)</li>
+      <li>Your <strong>security PIN</strong> (set at <code>init</code> time) — an extra confirmation layer</li>
+      <li>A <strong>new</strong> master password (with the same strength rules)</li>
+      <li>A <strong>new</strong> PIN (for the next time you change it)</li>
+    </ol>
+
+    <p>Every stored secret is decrypted with your old key and re-encrypted with the
+      new one — nothing is lost. If the push to GitHub fails partway through (e.g.
+      no internet), everything is automatically rolled back to exactly how it was.</p>
+
+    <h2 id="s11"><span class="num">11</span> Non-Interactive / CI Use</h2>
+    <p>Set the <code>ENVAULT_PASSWORD</code> environment variable to skip the interactive
+      password prompt on any command that needs to decrypt something:</p>
+    <div class="code-wrap"><pre><code>ENVAULT_PASSWORD="your-master-password" envault pull myapp --env production</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+
+    <h2 id="s12"><span class="num">12</span> Troubleshooting</h2>
+    <table>
+      <tr><th>Message</th><th>What it means</th><th>Fix</th></tr>
+      <tr><td><code>❌ Incorrect password</code></td><td>Wrong master password typed</td><td>Try again with the correct one</td></tr>
+      <tr><td><code>❌ envault is not initialized...</code></td><td>No local config found</td><td>Run <code>envault init</code> first</td></tr>
+      <tr><td><code>❌ Project "X" not found...</code></td><td>Typo or doesn't exist yet</td><td>Check the suggested list, or <code>envault push</code> it first</td></tr>
+      <tr><td><code>❌ Environment "X" not found...</code></td><td>Typo or doesn't exist yet</td><td>Check the suggested list, or create/push it first</td></tr>
+      <tr><td><code>❌ Failed to authenticate with GitHub...</code></td><td>Token expired, revoked, or wrong scope</td><td>Generate a new token at github.com, then run <code>envault init</code> again</td></tr>
+      <tr><td><code>❌ Failed to sync with GitHub...</code></td><td>Genuine network problem</td><td>Check your connection, try again</td></tr>
+      <tr><td><code>❌ Weak password...</code></td><td>Doesn't meet the strength rules</td><td>12+ chars, upper+lower+number+symbol</td></tr>
+      <tr><td><code>❌ Incorrect security PIN</code></td><td>Wrong PIN during <code>change-password</code></td><td>Use the PIN you set during <code>init</code></td></tr>
+    </table>
+
+    <h2 id="s13"><span class="num">13</span> Security Summary</h2>
+    <ul>
+      <li>Encryption: AES-256-GCM. Key derivation: scrypt.</li>
+      <li>GitHub only ever stores ciphertext.</li>
+      <li>No central server, no shared database — every user is fully isolated with
+        their own repo.</li>
+      <li>As secure as a well-managed password manager — not immune to keyloggers or
+        malware on your own machine, but a strong, genuinely private way to sync
+        secrets across your own devices.</li>
+    </ul>
+
+    <div class="footer">envault — developed by <a href="https://kuzhandayan-portfolio.site/" target="_blank" rel="noopener">Kuzhandayan</a> · open source</div>
+  </main>
+</div>
+
+<script>
+  function copyCode(btn){
+    const code = btn.previousElementSibling.innerText;
+    navigator.clipboard.writeText(code).then(()=>{
+      const old = btn.innerText;
+      btn.innerText = 'copied';
+      setTimeout(()=>{btn.innerText = old;}, 1200);
+    });
+  }
+
+  // active nav highlighting
+  const sections = document.querySelectorAll('h1[id], h2[id]');
+  const links = document.querySelectorAll('.nav-link');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec => {
+      const rect = sec.getBoundingClientRect();
+      if(rect.top <= 120) current = sec.id;
+    });
+    links.forEach(l => {
+      l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+    });
+  });
+</script>
+
+</body>
+</html>
