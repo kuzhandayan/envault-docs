@@ -49,7 +49,14 @@
     color:var(--text);letter-spacing:0.5px;margin-bottom:2px;
   }
   .brand-accent{color:var(--accent);}
-  .brand-sub{font-size:11px;color:var(--text-faint);font-family:var(--mono);margin-bottom:28px;}
+  .brand-sub{font-size:11px;color:var(--text-faint);font-family:var(--mono);margin-bottom:14px;}
+  .npm-link{
+    display:inline-flex;align-items:center;gap:6px;font-size:12px;
+    font-family:var(--mono);color:var(--text-dim);
+    padding:6px 10px;border-radius:6px;border:1px solid var(--border);
+    margin-bottom:24px;
+  }
+  .npm-link:hover{color:var(--accent);border-color:var(--accent-dim);text-decoration:none;}
   .nav-group{margin-bottom:4px;}
   .nav-link{
     display:block;font-size:13px;color:var(--text-dim);
@@ -125,10 +132,15 @@
   .copy-btn{
     position:absolute;top:10px;right:10px;
     background:var(--surface-2);border:1px solid var(--border);color:var(--text-faint);
-    font-family:var(--mono);font-size:11px;padding:4px 10px;border-radius:5px;
-    cursor:pointer;
+    border-radius:6px;cursor:pointer;transition:color .15s,border-color .15s;
+    display:flex;align-items:center;justify-content:center;
+    width:28px;height:28px;padding:0;
   }
   .copy-btn:hover{color:var(--accent);border-color:var(--accent-dim);}
+  .copy-btn .i-check{display:none;}
+  .copy-btn.copied{color:var(--accent);border-color:var(--accent-dim);}
+  .copy-btn.copied .i-copy{display:none;}
+  .copy-btn.copied .i-check{display:block;}
 
   /* ---------- Table ---------- */
   table{width:100%;border-collapse:collapse;margin:16px 0 24px;font-size:13.5px;}
@@ -167,6 +179,10 @@
   <nav class="sidebar" id="sidebar">
     <div class="brand">env<span class="brand-accent">ault</span></div>
     <div class="brand-sub">complete user guide</div>
+    <a class="npm-link" href="https://www.npmjs.com/package/envault-sync" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M0 7.334v8.332h6.666V17.5H12v-1.834h12V7.334zm6.666 6.664H5.334V10H4v4H1.334V8.667h5.332zm4.001-4h1.335v4h-1.335zm4.001 0h4v3.996h-1.333V9.999H16v4h-1.332zm6.664 0H24v3.996h-2.667V14H20v-2.669l1.333.003z"/></svg>
+      View on npm
+    </a>
 
     <div class="nav-group">
       <a class="nav-link" href="#quickref">Quick Reference</a>
@@ -252,14 +268,14 @@
     </div>
 
     <h2 id="s2"><span class="num">02</span> Installation</h2>
-    <div class="code-wrap"><pre><code>npm install -g envault-sync</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+    <div class="code-wrap"><pre><code>npm install -g envault-sync</code></pre><button class="copy-btn" onclick="copyCode(this)" aria-label="Copy to clipboard"><svg class="i-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><svg class="i-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></button></div>
     <p>Published on npm as <code>envault-sync</code>, but this installs the <code>envault</code> command
       itself — every command below is typed as <code>envault ...</code>, not <code>envault-sync ...</code>.</p>
     <p>If running from source instead of a global install:</p>
-    <div class="code-wrap"><pre><code>node bin/envault.js &lt;command&gt;</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+    <div class="code-wrap"><pre><code>node bin/envault.js &lt;command&gt;</code></pre><button class="copy-btn" onclick="copyCode(this)" aria-label="Copy to clipboard"><svg class="i-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><svg class="i-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></button></div>
 
     <h2 id="s3"><span class="num">03</span> First-Time Setup — <code>envault init</code></h2>
-    <div class="code-wrap"><pre><code>envault init</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+    <div class="code-wrap"><pre><code>envault init</code></pre><button class="copy-btn" onclick="copyCode(this)" aria-label="Copy to clipboard"><svg class="i-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><svg class="i-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></button></div>
     <p><strong>What it asks for, in order:</strong></p>
     <ol>
       <li><strong>GitHub Personal Access Token</strong> — needs <code>repo</code> scope. Generate one at
@@ -304,13 +320,13 @@
 envault push &lt;project&gt; --env &lt;envName&gt; --file &lt;path&gt; # use a specific source file
 
 envault pull &lt;project&gt; --env &lt;envName&gt;               # pulls + decrypts into ./.env
-envault pull --all                                    # restores everything into a folder you choose</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+envault pull --all                                    # restores everything into a folder you choose</code></pre><button class="copy-btn" onclick="copyCode(this)" aria-label="Copy to clipboard"><svg class="i-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><svg class="i-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></button></div>
 
     <p><strong>Example:</strong></p>
     <div class="code-wrap"><pre><code>cd ~/code/myapp
 envault push myapp --env dev
 # ...on another laptop:
-envault pull myapp --env dev</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+envault pull myapp --env dev</code></pre><button class="copy-btn" onclick="copyCode(this)" aria-label="Copy to clipboard"><svg class="i-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><svg class="i-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></button></div>
 
     <p><code>--env</code> names are completely free-form (<code>dev</code>, <code>production</code>, <code>uat</code>, <code>qa</code>,
       whatever you use) — not a fixed list. Re-pushing to the same project+env always
@@ -323,7 +339,7 @@ envault env list &lt;project&gt;                 # list environments for a proje
 envault env delete &lt;project&gt; &lt;envName&gt;     # delete one environment (asks to confirm)
 
 envault project list                       # list all projects + their environments
-envault project delete &lt;project&gt;           # delete a project and ALL its environments (asks to confirm)</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+envault project delete &lt;project&gt;           # delete a project and ALL its environments (asks to confirm)</code></pre><button class="copy-btn" onclick="copyCode(this)" aria-label="Copy to clipboard"><svg class="i-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><svg class="i-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></button></div>
 
     <p>A <strong>project</strong> is the top-level bucket (e.g. <code>myapp</code>); every environment you
       create for it (<code>dev</code>, <code>uat</code>, <code>production</code>, or any name you choose) lives inside
@@ -331,7 +347,7 @@ envault project delete &lt;project&gt;           # delete a project and ALL its 
       others unless you deliberately combine them (see Merge below).</p>
 
     <h2 id="s6"><span class="num">06</span> Combining Multiple Files Into One Environment — <code>envault merge</code></h2>
-    <div class="code-wrap"><pre><code>envault merge &lt;project&gt; --env &lt;envName&gt; --file &lt;path1&gt; --file &lt;path2&gt; [--file &lt;path3&gt; ...]</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+    <div class="code-wrap"><pre><code>envault merge &lt;project&gt; --env &lt;envName&gt; --file &lt;path1&gt; --file &lt;path2&gt; [--file &lt;path3&gt; ...]</code></pre><button class="copy-btn" onclick="copyCode(this)" aria-label="Copy to clipboard"><svg class="i-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><svg class="i-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></button></div>
 
     <p>Combines 2 or more <code>.env</code> files into a single environment. If the same key
       appears in more than one file with <strong>different</strong> values, you're prompted
@@ -349,10 +365,10 @@ envault project delete &lt;project&gt;           # delete a project and ALL its 
     </ul>
 
     <p><strong>Example:</strong></p>
-    <div class="code-wrap"><pre><code>envault merge myapp --env live_qa --file src/.env --file src/.env.uat</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+    <div class="code-wrap"><pre><code>envault merge myapp --env live_qa --file src/.env --file src/.env.uat</code></pre><button class="copy-btn" onclick="copyCode(this)" aria-label="Copy to clipboard"><svg class="i-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><svg class="i-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></button></div>
 
     <h2 id="s7"><span class="num">07</span> Interactive Editing — <code>envault edit</code></h2>
-    <div class="code-wrap"><pre><code>envault edit &lt;project&gt; --env &lt;envName&gt;</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+    <div class="code-wrap"><pre><code>envault edit &lt;project&gt; --env &lt;envName&gt;</code></pre><button class="copy-btn" onclick="copyCode(this)" aria-label="Copy to clipboard"><svg class="i-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><svg class="i-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></button></div>
 
     <p>Decrypts the environment into a temporary file, opens it in your terminal's
       text editor (whatever <code>$EDITOR</code> is set to, e.g. <code>vim</code>, <code>nano</code> — defaults to
@@ -371,7 +387,7 @@ envault project delete &lt;project&gt;           # delete a project and ALL its 
     <div class="code-wrap"><pre><code>envault set &lt;project&gt; --env &lt;envName&gt; KEY=VALUE     # add or update one key
 envault get &lt;project&gt; --env &lt;envName&gt; KEY           # print one key's value
 envault delete-key &lt;project&gt; --env &lt;envName&gt; KEY    # remove one key
-envault list-keys &lt;project&gt; --env &lt;envName&gt;         # list key NAMES only (values hidden)</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+envault list-keys &lt;project&gt; --env &lt;envName&gt;         # list key NAMES only (values hidden)</code></pre><button class="copy-btn" onclick="copyCode(this)" aria-label="Copy to clipboard"><svg class="i-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><svg class="i-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></button></div>
 
     <p><code>set</code> handles both adding a brand-new key and updating an existing one — same
       command either way. Everything else in that environment stays untouched.</p>
@@ -381,7 +397,7 @@ envault list-keys &lt;project&gt; --env &lt;envName&gt;         # list key NAMES
                                  # checklist, lets you pick which to push
 envault view &lt;project&gt; --env &lt;envName&gt;    # decrypt and print to terminal ONLY (never writes to disk)
 envault copy &lt;project&gt; --env &lt;envName&gt;    # decrypt and copy to clipboard (never touches disk)
-envault list                              # table of every project + env + last updated time</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+envault list                              # table of every project + env + last updated time</code></pre><button class="copy-btn" onclick="copyCode(this)" aria-label="Copy to clipboard"><svg class="i-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><svg class="i-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></button></div>
 
     <p><code>scan</code> is the fastest way to onboard an existing project — it automatically
       detects the project name from the nearest <code>.git</code> folder and guesses the
@@ -394,7 +410,7 @@ envault list                              # table of every project + env + last 
       found — so nothing gets uploaded without an explicit confirmation.</p>
 
     <h2 id="s10"><span class="num">10</span> Changing Your Master Password — <code>envault change-password</code></h2>
-    <div class="code-wrap"><pre><code>envault change-password</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+    <div class="code-wrap"><pre><code>envault change-password</code></pre><button class="copy-btn" onclick="copyCode(this)" aria-label="Copy to clipboard"><svg class="i-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><svg class="i-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></button></div>
 
     <p><strong>Requires, in order:</strong></p>
     <ol>
@@ -411,7 +427,7 @@ envault list                              # table of every project + env + last 
     <h2 id="s11"><span class="num">11</span> Non-Interactive / CI Use</h2>
     <p>Set the <code>ENVAULT_PASSWORD</code> environment variable to skip the interactive
       password prompt on any command that needs to decrypt something:</p>
-    <div class="code-wrap"><pre><code>ENVAULT_PASSWORD="your-master-password" envault pull myapp --env production</code></pre><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+    <div class="code-wrap"><pre><code>ENVAULT_PASSWORD="your-master-password" envault pull myapp --env production</code></pre><button class="copy-btn" onclick="copyCode(this)" aria-label="Copy to clipboard"><svg class="i-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><svg class="i-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></button></div>
 
     <h2 id="s12"><span class="num">12</span> Troubleshooting</h2>
     <table>
@@ -445,9 +461,12 @@ envault list                              # table of every project + env + last 
   function copyCode(btn){
     const code = btn.previousElementSibling.innerText;
     navigator.clipboard.writeText(code).then(()=>{
-      const old = btn.innerText;
-      btn.innerText = 'copied';
-      setTimeout(()=>{btn.innerText = old;}, 1200);
+      btn.classList.add('copied');
+      btn.setAttribute('aria-label', 'Copied!');
+      setTimeout(()=>{
+        btn.classList.remove('copied');
+        btn.setAttribute('aria-label', 'Copy to clipboard');
+      }, 1200);
     });
   }
 
